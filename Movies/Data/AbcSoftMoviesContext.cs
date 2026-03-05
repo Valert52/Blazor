@@ -15,5 +15,7 @@ namespace Abc.Soft.Movies.Data
         }
 
         public DbSet<Movie> Movie { get; set; } = default!;
+        public DbSet<Currency> Currency { get; set; } = default!; 
+        public DbSet<Country> Country { get; set; } = default!;
     }
 }
