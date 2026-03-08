@@ -20,9 +20,7 @@
     <PropertyColumn Property="country => country.Capital" />
 
     <TemplateColumn Context="country">
-        <a href="@($"countries/edit?id={country.Id}")">Edit</a> |
-        <a href="@($"countries/details?id={country.Id}")">Details</a> |
-        <a href="@($"countries/delete?id={country.Id}")">Delete</a>
+	    <MyIndexItem BasePath="countries" Id="@country.Id" />
     </TemplateColumn>
 </QuickGrid>
 

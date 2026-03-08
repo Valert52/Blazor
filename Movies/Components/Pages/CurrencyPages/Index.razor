@@ -20,9 +20,7 @@
     <PropertyColumn Property="currency => currency.Symbol" />
 
     <TemplateColumn Context="currency">
-        <a href="@($"currencies/edit?id={currency.Id}")">Edit</a> |
-        <a href="@($"currencies/details?id={currency.Id}")">Details</a> |
-        <a href="@($"currencies/delete?id={currency.Id}")">Delete</a>
+	    <MyIndexItem BasePath="currencies" Id="@currency.Id" />
     </TemplateColumn>
 </QuickGrid>
 

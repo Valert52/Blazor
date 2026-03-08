@@ -21,9 +21,7 @@
     <PropertyColumn Property="movie => movie.Price" />
 
     <TemplateColumn Context="movie">
-        <a href="@($"movies/edit?id={movie.Id}")">Edit</a> |
-        <a href="@($"movies/details?id={movie.Id}")">Details</a> |
-        <a href="@($"movies/delete?id={movie.Id}")">Delete</a>
+	    <MyIndexItem BasePath="movies" Id="@movie.Id" />
     </TemplateColumn>
 </QuickGrid>
 
