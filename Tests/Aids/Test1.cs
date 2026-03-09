@@ -1,4 +1,4 @@
-﻿namespace Abc.Tests.Aids
+﻿namespace Aids
 {
     [TestClass]
     public sealed class Test1
