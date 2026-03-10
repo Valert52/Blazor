@@ -14,4 +14,9 @@ public class Currency
 
     [StringLength(5)]
     public string? Symbol { get; set; } //// €,$
+
+    public static implicit operator Currency(Movie v)
+    {
+        throw new NotImplementedException();
+    }
 }
