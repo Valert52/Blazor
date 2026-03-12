@@ -9,4 +9,5 @@ public sealed class Currency : NamedEntity
     public string MinorUnitSymbol { get; set; } = "";
     public double RatioOfMinorUnit { get; set; }
     public bool IsIsoCurrency { get; set; }
+    public string Symbol { get; set; } = "";
 }

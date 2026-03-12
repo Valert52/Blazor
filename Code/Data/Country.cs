@@ -11,4 +11,5 @@ public sealed class Country : NamedEntity
     public bool IsCountry { get; set; }
     public bool IsLoyaltyProgram { get; set; }
     public string IsoCode { get; set; } = "";
+    public string Capital { get; set; } = "";
 }
