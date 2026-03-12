@@ -8,5 +8,4 @@
 	  <RootNamespace>Abc.Data</RootNamespace>
 	  <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-
 </Project>

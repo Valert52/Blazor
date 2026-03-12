@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Abc.Data.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Abc.Data;
 
-public class Country
-{ 
-    public int Id { get; set; }
-    [Required, StringLength(100)]
-    public string Name { get; set; } = default!; //Estonia
-    [Required, StringLength(2)]
-    public string IsoCode { get; set; } = default!; //EE
-    [StringLength(100)]
-    public string? Capital { get; set; } //Tallinn
+public sealed class Country : NamedEntity
+{
+    public string OfficialName { get; set; } = "";
+    public string NativeName { get; set; } = "";
+    public string NumericCode { get; set; } = "";
+    public bool IsCountry { get; set; }
+    public bool IsLoyaltyProgram { get; set; }
+    public string IsoCode { get; set; } = "";
 }

@@ -1,22 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Abc.Data.Common;
 
 namespace Abc.Data;
 
-public class Currency
+public sealed class Currency : NamedEntity
 {
-    public int Id { get; set; }
-
-    [Required, StringLength(3)]
-    public string Code { get; set; } = default!;   //EUR,USD
-
-    [Required, StringLength(50)]
-    public string Name { get; set; } = default!;   //Euro
-
-    [StringLength(5)]
-    public string? Symbol { get; set; } //// €,$
-
-    public static implicit operator Currency(Movie v)
-    {
-        throw new NotImplementedException();
-    }
+    public string NumericCode { get; set; } = "";
+    public string MajorUnitSymbol { get; set; } = "";
+    public string MinorUnitSymbol { get; set; } = "";
+    public double RatioOfMinorUnit { get; set; }
+    public bool IsIsoCurrency { get; set; }
 }

@@ -18,9 +18,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Abc.Soft.Movies.Client\Abc.Soft.Movies.Client.csproj" />
+    <ProjectReference Include="..\Code\Data\Data.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>
