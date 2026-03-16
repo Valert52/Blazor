@@ -12,26 +12,18 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="Country" OnValidSubmit="AddCountry" FormName="create" Enhance>
+        <EditForm method="post" Model="country" OnValidSubmit="addCountry" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
-                <span class="text-danger">*</span>
-                <label for="name" class="form-label">Name:</label> 
-                <InputText id="name" @bind-Value="Country.Name" class="form-control" aria-required="true"/> 
-                <ValidationMessage For="() => Country.Name" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <span class="text-danger">*</span>
-                <label for="isocode" class="form-label">IsoCode:</label> 
-                <InputText id="isocode" @bind-Value="Country.IsoCode" class="form-control" aria-required="true"/> 
-                <ValidationMessage For="() => Country.IsoCode" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="capital" class="form-label">Capital:</label> 
-                <InputText id="capital" @bind-Value="Country.Capital" class="form-control" /> 
-                <ValidationMessage For="() => Country.Capital" class="text-danger" /> 
-            </div>        
+            <MyPropertyEditor TValue="string" Id="name" Label="Name:" @bind-Value="country.Name" />
+            <MyPropertyEditor TValue="string" Id="code" Label="Code:" @bind-Value="country.Code" />
+            <MyPropertyEditor TValue="string" Id="details" Label="Details:" @bind-Value="country.Details" />
+            <MyPropertyEditor TValue="string" Id="iseCode" Label="ISO Code:" @bind-Value="country.IsoCode" />
+            <MyPropertyEditor TValue="string" Id="nativeName" Label="Native Name:" @bind-Value="country.NativeName" />
+            <MyPropertyEditor TValue="string" Id="numericCode" Label="Numeric Code:" @bind-Value="country.NumericCode" />
+            <MyPropertyEditor TValue="string" Id="officialName" Label="Official Name:" @bind-Value="country.OfficialName" />
+            <MyPropertyEditor TValue="DateTime?" Id="validFrom" Label="Valid From:" @bind-Value="country.ValidFrom" />
+            <MyPropertyEditor TValue="DateTime?" Id="validTo" Label="Valid To:" @bind-Value="country.ValidTo" />
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
@@ -43,13 +35,13 @@
 
 @code {
     [SupplyParameterFromForm]
-    private Country Country { get; set; } = new();
+    private Country country { get; set; } = default!;
+    protected override void OnInitialized() => country ??= new();
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task AddCountry()
-    {
+    private async Task addCountry() {
         using var context = DbFactory.CreateDbContext();
-        context.Country.Add(Country);
+        context.Countries.Add(country);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/countries");
     }

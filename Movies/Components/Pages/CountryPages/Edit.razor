@@ -10,36 +10,30 @@
 
 <h2>Country</h2>
 <hr />
-@if (Country is null)
+@if (country is null)
 {
-    <p><em>Loading...</em></p>
+	<p><em>Loading...</em></p>
 }
 else
 {
-    <div class="row">
-        <div class="col-md-4">
-            <EditForm method="post" Model="Country" OnValidSubmit="UpdateCountry" FormName="edit" Enhance>
-                <DataAnnotationsValidator />
-                <ValidationSummary role="alert"/>
-                <input type="hidden" name="Country.Id" value="@Country.Id" />
-                <div class="mb-3">
-                <span class="text-danger">*</span>
-                    <label for="name" class="form-label">Name:</label>
-                    <InputText id="name" @bind-Value="Country.Name" class="form-control" aria-required="true"/>
-                    <ValidationMessage For="() => Country.Name" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                <span class="text-danger">*</span>
-                    <label for="isocode" class="form-label">IsoCode:</label>
-                    <InputText id="isocode" @bind-Value="Country.IsoCode" class="form-control" aria-required="true"/>
-                    <ValidationMessage For="() => Country.IsoCode" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="capital" class="form-label">Capital:</label>
-                    <InputText id="capital" @bind-Value="Country.Capital" class="form-control" />
-                    <ValidationMessage For="() => Country.Capital" class="text-danger" />
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+	<div class="row">
+		<div class="col-md-4">
+			<EditForm method="post" Model="country" OnValidSubmit="updateCountry" FormName="edit" Enhance>
+				<DataAnnotationsValidator />
+				<ValidationSummary role="alert" />
+				<input type="hidden" name="country.Id" value="@country.Id" />
+
+				<MyPropertyEditor TValue="string" Id="name" Label="Name:" @bind-Value="country.Name" />
+				<MyPropertyEditor TValue="string" Id="code" Label="Code:" @bind-Value="country.Code" />
+				<MyPropertyEditor TValue="string" Id="details" Label="Details:" @bind-Value="country.Details" />
+				<MyPropertyEditor TValue="string" Id="iseCode" Label="ISO Code:" @bind-Value="country.IsoCode" />
+				<MyPropertyEditor TValue="string" Id="nativeName" Label="Native Name:" @bind-Value="country.NativeName" />
+				<MyPropertyEditor TValue="string" Id="numericCode" Label="Numeric Code:" @bind-Value="country.NumericCode" />
+				<MyPropertyEditor TValue="string" Id="officialName" Label="Official Name:" @bind-Value="country.OfficialName" />
+				<MyPropertyEditor TValue="DateTime?" Id="validFrom" Label="Valid From:" @bind-Value="country.ValidFrom" />
+				<MyPropertyEditor TValue="DateTime?" Id="validTo" Label="Valid To:" @bind-Value="country.ValidTo" />
+
+				<button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
     </div>
@@ -50,52 +44,34 @@ else
 </div>
 
 @code {
-    [SupplyParameterFromQuery]
-    private int Id { get; set; }
+	[SupplyParameterFromQuery] private int Id { get; set; }
+	[SupplyParameterFromForm] private Country country { get; set; }
 
-    [SupplyParameterFromForm]
-    private Country? Country { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        using var context = DbFactory.CreateDbContext();
-        Country ??= await context.Country.FirstOrDefaultAsync(m => m.Id == Id);
-
-        if (Country is null)
-        {
-            NavigationManager.NavigateTo("notfound");
-        }
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		using var context = DbFactory.CreateDbContext();
+		country ??= await context.Countries.FirstOrDefaultAsync(m => m.Id == Id);
+		if (country is null) NavigationManager.NavigateTo("/notfound");
+	}
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task UpdateCountry()
-    {
+    private async Task updateCountry() {
         using var context = DbFactory.CreateDbContext();
-        context.Attach(Country!).State = EntityState.Modified;
-
-        try
-        {
-            await context.SaveChangesAsync();
+        context.Attach(country!).State = EntityState.Modified;
+        try {
+	        await context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryExists(Country!.Id))
-            {
-                NavigationManager.NavigateTo("notfound");
-            }
-            else
-            {
-                throw;
-            }
+        catch (DbUpdateConcurrencyException) {
+	        if (!countryExists(country!.Id))
+		        NavigationManager.NavigateTo("/notfound");
+	        else
+		        throw;
         }
-
         NavigationManager.NavigateTo("/countries");
     }
-
-    private bool CountryExists(int id)
-    {
+    private bool countryExists(int id) {
         using var context = DbFactory.CreateDbContext();
-        return context.Country.Any(e => e.Id == id);
+        return context.Countries.Any(e => e.Id == id);
     }
 }

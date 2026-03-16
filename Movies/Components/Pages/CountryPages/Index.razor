@@ -6,31 +6,38 @@
 @implements IAsyncDisposable
 @inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Countries</PageTitle>
 
-<h1>Index</h1>
+<h1>Countries</h1>
 
 <p>
     <a href="countries/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="context.Country">
-    <PropertyColumn Property="country => country.Name" />
-    <PropertyColumn Property="country => country.IsoCode" />
-    <PropertyColumn Property="country => country.Capital" />
+<QuickGrid Class="table" Items="context.Countries">
+	<PropertyColumn Property="x => x.Name" />
+	<PropertyColumn Property="x => x.Code" />
+	<PropertyColumn Property="x => x.Details" />
+	<PropertyColumn Property="x => x.IsoCode" />
+	<PropertyColumn Property="x => x.NativeName" />
+	<PropertyColumn Property="x => x.NumericCode" />
+	<PropertyColumn Property="x => x.OfficialName" />
+	<PropertyColumn Property="x => x.ValidFrom" />
+	<PropertyColumn Property="x => x.ValidTo" />
 
-    <TemplateColumn Context="country">
-	    <MyIndexItem BasePath="countries" Id="@country.Id" />
-    </TemplateColumn>
+   
+	<TemplateColumn Context="x">
+		<a href="@($"countries/edit?id={x.Id}")">Edit</a> |
+		<a href="@($"countries/details?id={x.Id}")">Details</a> |
+		<a href="@($"countries/delete?id={x.Id}")">Delete</a>
+	</TemplateColumn>
 </QuickGrid>
 
 @code {
     private AbcSoftMoviesContext context = default!;
 
-    protected override void OnInitialized()
-    {
-        context = DbFactory.CreateDbContext();
-    }
+    protected override void OnInitialized() => context = DbFactory.CreateDbContext();
+    
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }

@@ -4,47 +4,40 @@
 @inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
 @inject NavigationManager NavigationManager
 
-<PageTitle>Details</PageTitle>
+<PageTitle>Details Country</PageTitle>
 
 <h1>Details</h1>
 
 <div>
-    <h2>Country</h2>
-    <hr />
-    @if (country is null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else {
-        <dl class="row">
-            <dt class="col-sm-2">Name</dt>
-            <dd class="col-sm-10">@country.Name</dd>
-            <dt class="col-sm-2">IsoCode</dt>
-            <dd class="col-sm-10">@country.IsoCode</dd>
-            <dt class="col-sm-2">Capital</dt>
-            <dd class="col-sm-10">@country.Capital</dd>
-        </dl>
-        <div>
-            <a href="@($"/countries/edit?id={country.Id}")">Edit</a> |
-            <a href="@($"/countries")">Back to List</a>
-        </div>
-    }
+	<h2>Country</h2>
+	<hr />
+	@if (country is null)
+	{
+		<p><em>Loading...</em></p>
+	}
+	else
+	{
+		<MyEntityViewer Entity="country" />
+		<div>
+			<a href="@($"/countries/edit?id={country.Id}")">Edit</a> |
+			<a href="@($"/countries")">Back to List</a>
+		</div>
+	}
 </div>
 
 @code {
-    private Country? country;
+	private Country country;
 
-    [SupplyParameterFromQuery]
-    private int Id { get; set; }
+	[SupplyParameterFromQuery]
+	private int Id { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        using var context = DbFactory.CreateDbContext();
-        country = await context.Country.FirstOrDefaultAsync(m => m.Id == Id);
-
-        if (country is null)
-        {
-            NavigationManager.NavigateTo("notfound");
-        }
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		using var context = DbFactory.CreateDbContext();
+		country = await context.Countries.FirstOrDefaultAsync(m => m.Id == Id);
+		if (country is null)
+		{
+			NavigationManager.NavigateTo("/404", true);
+		}
+	}
 }

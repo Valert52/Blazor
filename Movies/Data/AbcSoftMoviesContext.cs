@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Abc.Data;
 
 namespace Abc.Soft.Movies.Data
@@ -14,8 +10,8 @@ namespace Abc.Soft.Movies.Data
         {
         }
 
-        public DbSet<Movie> Movie { get; set; } = default!;
-        public DbSet<Currency> Currency { get; set; } = default!; 
-        public DbSet<Country> Country { get; set; } = default!;
+        public DbSet<Movie> Movies { get; set; } = default!;
+        public DbSet<Currency> Currency { get; set; } = default!;
+        public DbSet<Country> Countries { get; set; } = default!;
     }
 }
