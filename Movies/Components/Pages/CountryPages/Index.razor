@@ -1,10 +1,11 @@
 ﻿@page "/countries"
-@using Microsoft.EntityFrameworkCore
-@using Microsoft.AspNetCore.Components.QuickGrid
 @using Abc.Data
+@using Abc.Infra
 @using Abc.Soft.Movies.Data
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
 @implements IAsyncDisposable
-@inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
+@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 
 <PageTitle>Countries</PageTitle>
 

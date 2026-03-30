@@ -2,8 +2,11 @@
 
 namespace Aids;
 
-public abstract class TestAids <TClass> where TClass : class, new() {
+public abstract class TestAids <TClass>: TestAids where TClass : class, new() {
     protected TClass obj;
+
+    [TestInitialize] public virtual void Initialize() => type = typeof(TClass);
+
     protected const BindingFlags publicDeclared = BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static;
     protected static IEnumerable<string> getProperties()
         => Abc.Aids.GetType.PropertyNames<TClass>(publicDeclared);
@@ -21,4 +24,19 @@ public abstract class TestAids <TClass> where TClass : class, new() {
 
     private static string noProperty(string name)
         => $"Property '{name}' not found in class '{typeof(TClass).Name}'.";
+}
+
+public abstract class TestAids
+{
+    protected Type type { get; set; }
+
+    [TestMethod]
+    public void IsCorrectClassTest()
+    {
+        var className = type?.Name;
+        var testClassName = GetType().Name;
+        Assert.AreEqual(testClassName.Replace("Tests", ""), className);
+    }
+    public void areEqual<T>(T e, T a) => Assert.AreEqual(e, a);
+    public void areSame(object e, object a) => Assert.AreSame(e, a);
 }

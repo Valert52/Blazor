@@ -1,4 +1,5 @@
 ﻿using Abc.Data;
+using Abc.Infra;
 using Microsoft.EntityFrameworkCore;
 
 namespace Abc.Soft.Movies.Data

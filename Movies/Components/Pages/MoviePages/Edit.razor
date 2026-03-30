@@ -1,6 +1,7 @@
 ﻿@page "/movies/edit"
+@using Abc.Infra
 @using Microsoft.EntityFrameworkCore
-@inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
+@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 @inject NavigationManager NavigationManager
 @using Abc.Data
 <PageTitle>Edit</PageTitle>
@@ -21,10 +22,13 @@ else
 				<DataAnnotationsValidator />
 				<ValidationSummary role="alert" />
 				<input type="hidden" name="Movie.Id" value="@Movie.Id" />
-				<MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
+				<MyEntityEditor Entity="Movie" />
+
+				@* <MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
 				<MyPropertyEditor TValue="DateTime?" Id="releasedate" Label="ReleaseDate:" @bind-Value="Movie.ValidFrom" />
 				<MyPropertyEditor TValue="string" Id="genre" Label="Genre:" @bind-Value="Movie.Genre" />
-				<MyPropertyEditor TValue="decimal" Id="price" Label="Price:" @bind-Value="Movie.Price" />
+				<MyPropertyEditor TValue="decimal" Id="price" Label="Price:" @bind-Value="Movie.Price" /> *@
+
 				<button type="submit" class="btn btn-primary">Save</button>
 			</EditForm>
 		</div>

@@ -2,6 +2,7 @@ using Abc.Soft.Movies.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Abc.Soft.Movies.Data;
+using Abc.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContextFactory<AbcSoftMoviesContext>(options =>

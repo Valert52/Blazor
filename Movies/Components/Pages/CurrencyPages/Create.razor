@@ -1,7 +1,8 @@
 ﻿@page "/currencies/create"
-@using Microsoft.EntityFrameworkCore
 @using Abc.Data
-@inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
+@using Abc.Infra
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 @inject NavigationManager NavigationManager
 
 <PageTitle>Create</PageTitle>
@@ -49,7 +50,7 @@
     private async Task AddCurrency()
     {
         using var context = DbFactory.CreateDbContext();
-        context.Currency.Add(Currency);
+        context.Currencies.Add(Currency);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/currencies");
     }

@@ -4,19 +4,16 @@ using Abc.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Abc.Soft.Movies.Migrations
+namespace Abc.Infra.Migrations
 {
     [DbContext(typeof(AbcSoftMoviesContext))]
-    [Migration("20260316195711_AddMovies")]
-    partial class AddMovies
+    partial class AbcSoftMoviesContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,7 +124,7 @@ namespace Abc.Soft.Movies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currency");
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Abc.Data.Movie", b =>

@@ -1,7 +1,8 @@
 ﻿@page "/currencies/details"
-@using Microsoft.EntityFrameworkCore
 @using Abc.Data
-@inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
+@using Abc.Infra
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 @inject NavigationManager NavigationManager
 
 <PageTitle>Details</PageTitle>
@@ -40,7 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        currency = await context.Currency.FirstOrDefaultAsync(m => m.Id == Id);
+        currency = await context.Currencies.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (currency is null)
         {

@@ -1,7 +1,8 @@
 ﻿@page "/currencies/delete"
-@using Microsoft.EntityFrameworkCore
 @using Abc.Data
-@inject IDbContextFactory<Abc.Soft.Movies.Data.AbcSoftMoviesContext> DbFactory
+@using Abc.Infra
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 @inject NavigationManager NavigationManager
 
 <PageTitle>Delete</PageTitle>
@@ -45,7 +46,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        currency = await context.Currency.FirstOrDefaultAsync(m => m.Id == Id);
+        currency = await context.Currencies.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (currency is null)
         {
@@ -56,7 +57,7 @@
     private async Task DeleteCurrency()
     {
         using var context = DbFactory.CreateDbContext();
-        context.Currency.Remove(currency!);
+        context.Currencies.Remove(currency!);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/currencies");
     }

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Abc.Soft.Movies.Migrations
+namespace Abc.Infra.Migrations
 {
     [DbContext(typeof(AbcSoftMoviesContext))]
-    [Migration("20260316195711_AddMovies")]
-    partial class AddMovies
+    [Migration("20260319121657_CurrencyToCurenccies")]
+    partial class CurrencyToCurenccies
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,7 +127,7 @@ namespace Abc.Soft.Movies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currency");
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Abc.Data.Movie", b =>
