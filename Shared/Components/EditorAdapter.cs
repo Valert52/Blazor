@@ -37,7 +37,7 @@ public sealed partial class EditorAdapter(ComponentBase c, object item, string p
         {
             ["id"] = propName,
             ["name"] = inputName,
-            ["class"] = "form-control",
+            ["class"] = underlyingType.IsBool() ? "form-check-input" : "form-control",
             ["Value"] = ad.PropValue,
             ["ValueChanged"] = valChanged(),
             ["ValueExpression"] = valExpression()

@@ -16,7 +16,7 @@
         <EditForm method="post" Model="country" OnValidSubmit="addCountry" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-			MyEntityEditor Entity="country" />
+            <MyEntityEditor Entity="country" />
 
             @*  <MyPropertyEditor TValue="string" Id="name" Label="Name:" @bind-Value="country.Name" />
             <MyPropertyEditor TValue="string" Id="code" Label="Code:" @bind-Value="country.Code" />

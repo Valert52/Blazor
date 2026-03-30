@@ -20,7 +20,7 @@ public abstract class BaseTests<TClass> : TestAids<TClass> where TClass : class,
     public void IsClassTestedTest()
     {
         var testMethods = GetType().GetMethods().Select(x => x.Name);
-        var membersToTest = type.GetProperties().Concat(getMethods());
+        var membersToTest = type.GetProperties().Select(x => x.Name).Concat(getMethods());
         foreach (var m in membersToTest)
         {
             if (!testMethods.Contains(m + "Test"))

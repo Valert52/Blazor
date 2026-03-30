@@ -76,6 +76,29 @@ namespace Abc.Infra.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("Abc.Data.CountryCurrency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("CountryCurrency");
+                });
+
             modelBuilder.Entity("Abc.Data.Currency", b =>
                 {
                     b.Property<int>("Id")
@@ -127,6 +150,38 @@ namespace Abc.Infra.Migrations
                     b.ToTable("Currencies");
                 });
 
+            modelBuilder.Entity("Abc.Data.Money", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("ValidFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ValidTo")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("Money");
+                });
+
             modelBuilder.Entity("Abc.Data.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -138,11 +193,17 @@ namespace Abc.Infra.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Details")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MoneyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -163,7 +224,59 @@ namespace Abc.Infra.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("MoneyId");
+
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Abc.Data.CountryCurrency", b =>
+                {
+                    b.HasOne("Abc.Data.Country", null)
+                        .WithMany("Currencies")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Abc.Data.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
+            modelBuilder.Entity("Abc.Data.Money", b =>
+                {
+                    b.HasOne("Abc.Data.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
+            modelBuilder.Entity("Abc.Data.Movie", b =>
+                {
+                    b.HasOne("Abc.Data.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("Abc.Data.Money", "Money")
+                        .WithMany()
+                        .HasForeignKey("MoneyId");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Money");
+                });
+
+            modelBuilder.Entity("Abc.Data.Country", b =>
+                {
+                    b.Navigation("Currencies");
                 });
 #pragma warning restore 612, 618
         }

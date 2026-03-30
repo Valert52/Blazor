@@ -12,6 +12,10 @@ builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddScoped<IMoviesRepo, MoviesRepo>();
+builder.Services.AddScoped<ICountriesRepo, CountriesRepo>();
+builder.Services.AddScoped<ICurrenciesRepo, CurrenciesRepo>();
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -28,7 +32,6 @@ using (var scope = app.Services.CreateScope())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseMigrationsEndPoint();
 }

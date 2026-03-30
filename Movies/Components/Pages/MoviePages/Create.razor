@@ -16,7 +16,7 @@
 		<EditForm method="post" Model="Movie" OnValidSubmit="AddMovie" FormName="create" Enhance>
 			<DataAnnotationsValidator />
 			<ValidationSummary class="text-danger" role="alert" />
-			MyEntityEditor Entity="Movie" />
+			<MyEntityEditor Entity="Movie" />
 
 			@* <MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
 			<MyPropertyEditor TValue="DateTime?" Id="releasedate" Label="ReleaseDate:" @bind-Value="Movie.ValidFrom" />
