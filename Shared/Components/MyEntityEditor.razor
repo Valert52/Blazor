@@ -1,7 +1,9 @@
-﻿@foreach (var p in Entity?.GetType().GetProperties() ?? []) {
-	<MyPropertyEditor Item="Entity" PropertyName="@p.Name" />
-}
+﻿@foreach (var p in Entity?.GetType().GetProperties() ?? [])
+{
+	if (p.Name == "Id") continue;
 
+	<MyPropertyEditor Item="@Entity" PropertyName="@p.Name" />
+}
 @code {
 	[Parameter] public object Entity { get; set; }
 }

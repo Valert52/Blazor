@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Abc.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateClean : Migration
+    public partial class v310326 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,25 +61,28 @@ namespace Abc.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountryCurrency",
+                name: "CountryCurrencies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    CurrencyId = table.Column<int>(type: "int", nullable: false)
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ValidTo = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CountryCurrency", x => x.Id);
+                    table.PrimaryKey("PK_CountryCurrencies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CountryCurrency_Countries_CountryId",
+                        name: "FK_CountryCurrencies_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CountryCurrency_Currencies_CurrencyId",
+                        name: "FK_CountryCurrencies_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
@@ -87,7 +90,7 @@ namespace Abc.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Money",
+                name: "Monies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -100,9 +103,9 @@ namespace Abc.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Money", x => x.Id);
+                    table.PrimaryKey("PK_Monies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Money_Currencies_CurrencyId",
+                        name: "FK_Monies_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
@@ -135,25 +138,25 @@ namespace Abc.Infra.Migrations
                         principalTable: "Countries",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Movies_Money_MoneyId",
+                        name: "FK_Movies_Monies_MoneyId",
                         column: x => x.MoneyId,
-                        principalTable: "Money",
+                        principalTable: "Monies",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryCurrency_CountryId",
-                table: "CountryCurrency",
+                name: "IX_CountryCurrencies_CountryId",
+                table: "CountryCurrencies",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryCurrency_CurrencyId",
-                table: "CountryCurrency",
+                name: "IX_CountryCurrencies_CurrencyId",
+                table: "CountryCurrencies",
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Money_CurrencyId",
-                table: "Money",
+                name: "IX_Monies_CurrencyId",
+                table: "Monies",
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
@@ -171,7 +174,7 @@ namespace Abc.Infra.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CountryCurrency");
+                name: "CountryCurrencies");
 
             migrationBuilder.DropTable(
                 name: "Movies");
@@ -180,7 +183,7 @@ namespace Abc.Infra.Migrations
                 name: "Countries");
 
             migrationBuilder.DropTable(
-                name: "Money");
+                name: "Monies");
 
             migrationBuilder.DropTable(
                 name: "Currencies");

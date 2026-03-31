@@ -23,7 +23,7 @@ else
 				<DataAnnotationsValidator />
 				<ValidationSummary role="alert" />
 				<input type="hidden" name="country.Id" value="@country.Id" />
-				<MyEntityEditor Entity="country" />
+				<MyEntityEditor Entity="@country" />
 
 				@* <MyPropertyEditor TValue="string" Id="name" Label="Name:" @bind-Value="country.Name" />
 				<MyPropertyEditor TValue="string" Id="code" Label="Code:" @bind-Value="country.Code" />
@@ -58,19 +58,30 @@ else
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task updateCountry() {
-        using var context = DbFactory.CreateDbContext();
-        context.Attach(country!).State = EntityState.Modified;
-        try {
-	        await context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException) {
-	        if (!countryExists(country!.Id))
-		        NavigationManager.NavigateTo("/notfound");
-	        else
-		        throw;
-        }
-        NavigationManager.NavigateTo("/countries");
+    private async Task updateCountry()
+    {
+	    using var context = DbFactory.CreateDbContext();
+
+	    Country? dbCountry = await context.Countries.FirstOrDefaultAsync(c => c.Id == country.Id);
+
+	    if (dbCountry is null)
+	    {
+		    NavigationManager.NavigateTo("/notfound");
+		    return;
+	    }
+
+	    dbCountry.Name = country.Name;
+	    dbCountry.Code = country.Code;
+	    dbCountry.Details = country.Details;
+	    dbCountry.IsoCode = country.IsoCode;
+	    dbCountry.NativeName = country.NativeName;
+	    dbCountry.NumericCode = country.NumericCode;
+	    dbCountry.OfficialName = country.OfficialName;
+	    dbCountry.ValidFrom = country.ValidFrom;
+	    dbCountry.ValidTo = country.ValidTo;
+
+	    await context.SaveChangesAsync();
+	    NavigationManager.NavigateTo("/countries");
     }
     private bool countryExists(int id) {
         using var context = DbFactory.CreateDbContext();

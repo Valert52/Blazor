@@ -1,4 +1,6 @@
-﻿@page "/movies/create"
+﻿
+
+@page "/movies/create"
 @using Abc.Infra
 @using Microsoft.EntityFrameworkCore
 @inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
@@ -16,13 +18,11 @@
 		<EditForm method="post" Model="Movie" OnValidSubmit="AddMovie" FormName="create" Enhance>
 			<DataAnnotationsValidator />
 			<ValidationSummary class="text-danger" role="alert" />
-			<MyEntityEditor Entity="Movie" />
-
-			@* <MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
+			<MyEntityEditor Entity="@Movie" />
+			@* 	<MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
 			<MyPropertyEditor TValue="DateTime?" Id="releasedate" Label="ReleaseDate:" @bind-Value="Movie.ValidFrom" />
 			<MyPropertyEditor TValue="string" Id="genre" Label="Genre:" @bind-Value="Movie.Genre" />
 			<MyPropertyEditor TValue="decimal" Id="price" Label="Price:" @bind-Value="Movie.Price" /> *@
-
 			<button type="submit" class="btn btn-primary">Create</button>
 		</EditForm>
 	</div>
@@ -31,6 +31,7 @@
 <div>
 	<a href="/movies">Back to List</a>
 </div>
+
 @code {
 	[SupplyParameterFromForm]
 	private Movie Movie { get; set; } = default!;

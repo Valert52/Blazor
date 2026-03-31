@@ -21,7 +21,7 @@ public class EfBaseRepo<TContext, TEntity>(TContext c) : IRepo<TEntity>
 
     public Task DeleteAsync(int id)
     {
-        return DeleteCoreAsync(id);
+        return deleteAsync(id);
     }
 
     public async Task<TEntity> GetAsync(int id)
@@ -31,7 +31,7 @@ public class EfBaseRepo<TContext, TEntity>(TContext c) : IRepo<TEntity>
 
     public async Task<IEnumerable<TEntity>> GetAsync()
     {
-        return await GetAllCoreAsync();
+        return await getAsync();
     }
 
     public async Task<TEntity> UpdateAsync(TEntity e)
@@ -40,7 +40,7 @@ public class EfBaseRepo<TContext, TEntity>(TContext c) : IRepo<TEntity>
         await db.SaveChangesAsync();
         return e;
     }
-    private async Task DeleteCoreAsync(int id)
+    private async Task deleteAsync(int id)
     {
         var entity = await GetAsync(id);
         if (entity is null) return;
@@ -48,7 +48,7 @@ public class EfBaseRepo<TContext, TEntity>(TContext c) : IRepo<TEntity>
         await db.SaveChangesAsync();
     }
 
-    private async Task<IEnumerable<TEntity>> GetAllCoreAsync()
+    private async Task<IEnumerable<TEntity>> getAsync()
     {
         return await db.Set<TEntity>().ToListAsync();
     }

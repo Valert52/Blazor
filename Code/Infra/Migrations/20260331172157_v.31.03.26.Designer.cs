@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Abc.Infra.Migrations
 {
     [DbContext(typeof(AbcSoftMoviesContext))]
-    [Migration("20260330164616_InitialCreateClean")]
-    partial class InitialCreateClean
+    [Migration("20260331172157_v.31.03.26")]
+    partial class v310326
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,13 +93,24 @@ namespace Abc.Infra.Migrations
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("ValidFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ValidTo")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
                     b.HasIndex("CurrencyId");
 
-                    b.ToTable("CountryCurrency");
+                    b.ToTable("CountryCurrencies");
                 });
 
             modelBuilder.Entity("Abc.Data.Currency", b =>
@@ -182,7 +193,7 @@ namespace Abc.Infra.Migrations
 
                     b.HasIndex("CurrencyId");
 
-                    b.ToTable("Money");
+                    b.ToTable("Monies");
                 });
 
             modelBuilder.Entity("Abc.Data.Movie", b =>
@@ -236,7 +247,7 @@ namespace Abc.Infra.Migrations
 
             modelBuilder.Entity("Abc.Data.CountryCurrency", b =>
                 {
-                    b.HasOne("Abc.Data.Country", null)
+                    b.HasOne("Abc.Data.Country", "Country")
                         .WithMany("Currencies")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -247,6 +258,8 @@ namespace Abc.Infra.Migrations
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
 
                     b.Navigation("Currency");
                 });

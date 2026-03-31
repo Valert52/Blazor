@@ -22,7 +22,7 @@ else
 				<DataAnnotationsValidator />
 				<ValidationSummary role="alert" />
 				<input type="hidden" name="Movie.Id" value="@Movie.Id" />
-				<MyEntityEditor Entity="Movie" />
+				<MyEntityEditor Entity="@Movie" />
 
 				@* <MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
 				<MyPropertyEditor TValue="DateTime?" Id="releasedate" Label="ReleaseDate:" @bind-Value="Movie.ValidFrom" />
@@ -59,20 +59,22 @@ else
 	private async Task UpdateMovie()
 	{
 		using var context = DbFactory.CreateDbContext();
-		context.Attach(Movie!).State = EntityState.Modified;
 
-		try
+		Movie? dbMovie = await context.Movies.FirstOrDefaultAsync(m => m.Id == Movie.Id);
+
+		if (dbMovie is null)
 		{
-			await context.SaveChangesAsync();
-		}
-		catch (DbUpdateConcurrencyException)
-		{
-			if (!MovieExists(Movie!.Id))
-				NavigationManager.NavigateTo("/404", true);
-			else
-				throw;
+			NavigationManager.NavigateTo("/404", true);
+			return;
 		}
 
+		dbMovie.Name = Movie.Name;
+		dbMovie.ValidFrom = Movie.ValidFrom;
+		dbMovie.ValidTo = Movie.ValidTo;
+		dbMovie.Genre = Movie.Genre;
+		dbMovie.Price = Movie.Price;
+
+		await context.SaveChangesAsync();
 		NavigationManager.NavigateTo("/movies");
 	}
 
