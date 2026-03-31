@@ -27,15 +27,25 @@ public class TypeExtensionTests : TestAids
     }
 
     [TestMethod]
-    public void IsDateTest() { Assert.Inconclusive(); }
+    public void IsDateTest()
+    {
+        Assert.IsTrue(TypeExtension.IsDate(typeof(DateTime)));
+        Assert.IsFalse(TypeExtension.IsDate(typeof(string)));
+    }
 
     [TestMethod]
-    public void IsStringTest() { Assert.Inconclusive(); }
+    public void IsStringTest()
+    {
+        Assert.IsTrue(TypeExtension.IsString(typeof(string)));
+        Assert.IsFalse(TypeExtension.IsString(typeof(int)));
+    }
 
     [DataRow(typeof(sbyte))]
     [DataRow(typeof(byte?))]
     [DataRow(typeof(byte))]
     [DataRow(typeof(byte?))]
+    [DataRow(typeof(int))]
+    [DataRow(typeof(int?))]
     [TestMethod]
     public void IsNumericTest(Type t)
     {
