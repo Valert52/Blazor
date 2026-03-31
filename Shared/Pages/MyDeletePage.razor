@@ -1,4 +1,6 @@
-﻿<PageTitle>@PageTitleText</PageTitle>
+﻿
+
+<PageTitle>@PageTitleText</PageTitle>
 
 <h1>Delete</h1>
 
@@ -18,7 +20,7 @@
 		}
 		else
 		{
-			<MyEntityViewer Entity="Entity" />
+			<MyEntityViewer Entity="@Entity" />
 		}
 
 		<EditForm method="post" Model="Entity" OnValidSubmit="HandleValidSubmit" FormName="delete" Enhance>
@@ -39,6 +41,7 @@
 
 	private async Task HandleValidSubmit()
 	{
-		if (OnValidSubmit.HasDelegate) await OnValidSubmit.InvokeAsync();
+		if (OnValidSubmit.HasDelegate)
+			await OnValidSubmit.InvokeAsync();
 	}
 }
