@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Abc.Data.Country" Collapsed="true">
-    <Position X="4.5" Y="3.5" Width="1.5" />
+  <Class Name="Abc.Data.Country">
+    <Position X="5.5" Y="2.75" Width="1.5" />
     <AssociationLine Name="Currencies" Type="Abc.Data.CountryCurrency">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.1" Y="-0.045" />
@@ -18,7 +18,7 @@
   <Class Name="Abc.Data.Currency" Collapsed="true">
     <Position X="1" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAAAAAAAAACAAAABIAAAAAAAAAAAACCA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAACAAAABIAAAAAAAAAAAAACA=</HashCode>
       <FileName>Currency.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -44,16 +44,16 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Abc.Data.CountryCurrency">
-    <Position X="2.75" Y="4" Width="1.5" />
+    <Position X="3.25" Y="3.75" Width="1.5" />
     <AssociationLine Name="Currency" Type="Abc.Data.Currency" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.188" Y="4" />
-        <Point X="3.188" Y="3.096" />
+        <Point X="3.688" Y="3.75" />
+        <Point X="3.688" Y="3.096" />
         <Point X="2.5" Y="3.096" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAACAIQAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAACAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CountryCurrency.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

@@ -2,47 +2,18 @@
 
 @page "/movies/create"
 @using Abc.Infra
-@using Microsoft.EntityFrameworkCore
-@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject IMoviesRepo repo
 @using Abc.Data
+@using Abc.Shared.Pages
 
-<PageTitle>Create</PageTitle>
-
-<h1>Create</h1>
-
-<h2>Movie</h2>
-<hr />
-<div class="row">
-	<div class="col-md-4">
-		<EditForm method="post" Model="Movie" OnValidSubmit="AddMovie" FormName="create" Enhance>
-			<DataAnnotationsValidator />
-			<ValidationSummary class="text-danger" role="alert" />
-			<MyEntityEditor Entity="@Movie" />
-			@* 	<MyPropertyEditor TValue="string" Id="title" Label="Title:" @bind-Value="Movie.Name" />
-			<MyPropertyEditor TValue="DateTime?" Id="releasedate" Label="ReleaseDate:" @bind-Value="Movie.ValidFrom" />
-			<MyPropertyEditor TValue="string" Id="genre" Label="Genre:" @bind-Value="Movie.Genre" />
-			<MyPropertyEditor TValue="decimal" Id="price" Label="Price:" @bind-Value="Movie.Price" /> *@
-			<button type="submit" class="btn btn-primary">Create</button>
-		</EditForm>
-	</div>
-</div>
-
-<div>
-	<a href="/movies">Back to List</a>
-</div>
+<MyCreatePage Entity="movie" EntityTitle="Movie" BasePath="/movies" OnValidSubmit="addMovie" />
 
 @code {
-	[SupplyParameterFromForm]
-	private Movie Movie { get; set; } = default!;
-
-	protected override void OnInitialized() => Movie ??= new();
-
-	private async Task AddMovie()
-	{
-		using var context = DbFactory.CreateDbContext();
-		context.Movies.Add(Movie);
-		await context.SaveChangesAsync();
+	[SupplyParameterFromForm] private Movie movie { get; set; } = default!;
+	protected override void OnInitialized() => movie ??= new();
+	private async Task addMovie() {
+		await repo.CreateAsync(movie);
 		NavigationManager.NavigateTo("/movies");
 	}
 }

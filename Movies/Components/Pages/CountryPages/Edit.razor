@@ -1,90 +1,28 @@
 ﻿@page "/countries/edit"
 @using Abc.Data
 @using Abc.Infra
-@using Microsoft.EntityFrameworkCore
-@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
+@inject ICountriesRepo repo
 @inject NavigationManager NavigationManager
 
-<PageTitle>Edit</PageTitle>
-
-<h1>Edit</h1>
-
-<h2>Country</h2>
-<hr />
-@if (country is null)
-{
-	<p><em>Loading...</em></p>
-}
-else
-{
-	<div class="row">
-		<div class="col-md-4">
-			<EditForm method="post" Model="country" OnValidSubmit="updateCountry" FormName="edit" Enhance>
-				<DataAnnotationsValidator />
-				<ValidationSummary role="alert" />
-				<input type="hidden" name="country.Id" value="@country.Id" />
-				<MyEntityEditor Entity="@country" />
-
-				@* <MyPropertyEditor TValue="string" Id="name" Label="Name:" @bind-Value="country.Name" />
-				<MyPropertyEditor TValue="string" Id="code" Label="Code:" @bind-Value="country.Code" />
-				<MyPropertyEditor TValue="string" Id="details" Label="Details:" @bind-Value="country.Details" />
-				<MyPropertyEditor TValue="string" Id="iseCode" Label="ISO Code:" @bind-Value="country.IsoCode" />
-				<MyPropertyEditor TValue="string" Id="nativeName" Label="Native Name:" @bind-Value="country.NativeName" />
-				<MyPropertyEditor TValue="string" Id="numericCode" Label="Numeric Code:" @bind-Value="country.NumericCode" />
-				<MyPropertyEditor TValue="string" Id="officialName" Label="Official Name:" @bind-Value="country.OfficialName" />
-				<MyPropertyEditor TValue="DateTime?" Id="validFrom" Label="Valid From:" @bind-Value="country.ValidFrom" />
-				<MyPropertyEditor TValue="DateTime?" Id="validTo" Label="Valid To:" @bind-Value="country.ValidTo" /> *@
-
-				<button type="submit" class="btn btn-primary">Save</button>
-            </EditForm>
-        </div>
-    </div>
-}
-
-<div>
-    <a href="/countries">Back to List</a>
-</div>
+<MyEditPage
+	PageTitleText="Edit Country"
+	EntityTitle="@country?.Name"
+	Entity="country"
+	BasePath="/countries"
+	EntityId="@Id"
+	OnValidSubmit="updateCountry" />
 
 @code {
 	[SupplyParameterFromQuery] private int Id { get; set; }
 	[SupplyParameterFromForm] private Country country { get; set; }
 
-	protected override async Task OnInitializedAsync()
-	{
-		using var context = DbFactory.CreateDbContext();
-		country ??= await context.Countries.FirstOrDefaultAsync(m => m.Id == Id);
-		if (country is null) NavigationManager.NavigateTo("/notfound");
+	protected override async Task OnInitializedAsync() {
+		country ??= await repo.GetAsync(Id);
+		if (country is null) NavigationManager.NavigateTo("/404", true);
 	}
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task updateCountry()
-    {
-	    using var context = DbFactory.CreateDbContext();
-
-	    Country? dbCountry = await context.Countries.FirstOrDefaultAsync(c => c.Id == country.Id);
-
-	    if (dbCountry is null)
-	    {
-		    NavigationManager.NavigateTo("/notfound");
-		    return;
-	    }
-
-	    dbCountry.Name = country.Name;
-	    dbCountry.Code = country.Code;
-	    dbCountry.Details = country.Details;
-	    dbCountry.IsoCode = country.IsoCode;
-	    dbCountry.NativeName = country.NativeName;
-	    dbCountry.NumericCode = country.NumericCode;
-	    dbCountry.OfficialName = country.OfficialName;
-	    dbCountry.ValidFrom = country.ValidFrom;
-	    dbCountry.ValidTo = country.ValidTo;
-
-	    await context.SaveChangesAsync();
-	    NavigationManager.NavigateTo("/countries");
-    }
-    private bool countryExists(int id) {
-        using var context = DbFactory.CreateDbContext();
-        return context.Countries.Any(e => e.Id == id);
-    }
+	private async Task updateCountry() {
+		await repo.UpdateAsync(country!);
+		NavigationManager.NavigateTo("/countries");
+	}
 }

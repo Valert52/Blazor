@@ -1,33 +1,23 @@
 ﻿@page "/movies"
-@using Abc.Infra
-@using Abc.Soft.Movies.Data
-@using Microsoft.AspNetCore.Components.QuickGrid
-@using Microsoft.EntityFrameworkCore
-@implements IAsyncDisposable
-@inject IDbContextFactory<AbcSoftMoviesContext> DbFactory
 @using Abc.Data
+@using Abc.Infra
+@inject IMoviesRepo repo
+@inject NavigationManager NavigationManager
+@using Abc.Shared.Pages
 
-<PageTitle>Index</PageTitle>
-
-<h1>Index</h1>
-
-<p>
-    <a href="movies/create">Create New</a>
-</p>
-
-<QuickGrid Class="table" Items="context.Movies">
-    <PropertyColumn Property="movie => movie.Name" />
-    <PropertyColumn Property="movie => movie.ValidFrom" Title="Release Date" />
-    <PropertyColumn Property="movie => movie.Genre" />
-    <PropertyColumn Property="movie => movie.Price" />
-
-    <TemplateColumn Context="movie">
-	    <MyIndexItem BasePath="movies" Id="@movie.Id" />
-    </TemplateColumn>
-</QuickGrid>
+<MyIndexPage
+	TItem="Movie"
+	PageTitleText="Movies Page"
+	EntityTitle="Movies"
+	Items="movies"
+	BasePath="movies">
+</MyIndexPage>
 
 @code {
-    private AbcSoftMoviesContext context = default!;
-    protected override void OnInitialized() =>  context = DbFactory.CreateDbContext();
-    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+	private IQueryable<Movie> movies = Enumerable.Empty<Movie>().AsQueryable();
+
+	protected override async Task OnInitializedAsync() {
+		if (repo is null) return;
+		movies = (await repo.GetAsync()).AsQueryable();
+	}
 }

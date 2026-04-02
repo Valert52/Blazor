@@ -1,18 +1,17 @@
-﻿<h3>MyDetailsPage</h3>
-<PageTitle>@PageTitleText</PageTitle>
+﻿<PageTitle>@PageTitleText</PageTitle>
 
 <h1>Details</h1>
 
 <div>
 	<h2>@EntityTitle</h2>
-	<hr>
+	<hr />
 	@if (Entity is null)
 	{
 		<p><em>Loading...</em></p>
 	}
 	else
 	{
-		<MyEntityViewer Entity="Entity" />
+		<MyEntityViewer Entity="@Entity" />
 		<div>
 			<a href="@($"{BasePath}/edit?id={EntityId}")">Edit</a> |
 			<a href="@BasePath">Back to List</a>

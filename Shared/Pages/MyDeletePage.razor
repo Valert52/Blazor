@@ -1,6 +1,4 @@
-﻿
-
-<PageTitle>@PageTitleText</PageTitle>
+﻿<PageTitle>@PageTitleText</PageTitle>
 
 <h1>Delete</h1>
 
@@ -23,7 +21,7 @@
 			<MyEntityViewer Entity="@Entity" />
 		}
 
-		<EditForm method="post" Model="Entity" OnValidSubmit="HandleValidSubmit" FormName="delete" Enhance>
+		<EditForm method="post" Model="@Entity" OnValidSubmit="HandleValidSubmit" FormName="delete" Enhance>
 			<button type="submit" class="btn btn-danger" disabled="@(Entity is null)">Delete</button> |
 			<a href="@BasePath">Back to List</a>
 		</EditForm>
@@ -35,7 +33,7 @@
 	[Parameter] public string EntityTitle { get; set; }
 	[Parameter] public object Entity { get; set; }
 	[Parameter] public string BasePath { get; set; }
-	[Parameter] public Guid? EntityId { get; set; }
+	[Parameter] public int? EntityId { get; set; }
 	[Parameter] public EventCallback OnValidSubmit { get; set; }
 	[Parameter] public RenderFragment ChildContent { get; set; }
 
